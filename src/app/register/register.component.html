@@ -1,0 +1,85 @@
+<!-- header -->
+<nav class="navbar  bg-warning">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="https://genhq.com/wp-content/uploads/2018/09/GenZBanking2Final.gif" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        SM Bank
+      </a>
+    </div>
+  </nav>
+  <!-- register landing page -->
+  <div *ngIf="RegisterSuccess" class="container text-center mt-5 p-5">
+    <h1>Your Data getting Registered...please wait
+      <div class="spinner-border text-info" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </h1>
+  </div>
+
+<!-- main content -->
+<div *ngIf="!RegisterSuccess" class="container">
+    <div class="row">
+        <div class="col-6 mt-5">
+             <img src="https://cdni.iconscout.com/illustration/premium/thumb/man-opening-bank-account-4468644-3783942.png"
+             width="600px" height="500px">
+        </div>
+        <div class="col-6 mb-3">
+            <!-- login form -->
+           <form (ngSubmit)="register()" [formGroup]="registerForm" class="mt-5 border border-info p-5 rounded shadow">
+            <h1 class="text-center text-info my-3">Register Here....</h1>
+               <!-- Account Number -->
+               <div class="form-outline mb-4">
+                <label for="" id="formExample1" class="form-label"> Account Number</label>
+                <input name="acno" formControlName="acno" type="text" id="formExample1" class="form-control">
+                <div *ngIf="this.registerForm.get('acno')?.errors&&this.registerForm.get('username')?.touched" class="text-danger">*Invalid account number</div>
+               </div>
+               <!-- username -->
+               <div class="form-outline mb-4">
+                <label for="" id="formExample2" class="form-label"> User Name</label>
+                <input name="username" formControlName="username" type="text" id="formExample2" class="form-control">
+                <div *ngIf="this.registerForm.get('username')?.errors&&this.registerForm.get('username')?.touched" class="text-danger">*Invalid Username</div>
+
+               </div>
+               <!-- password -->
+               <div class="form-outline mb-4">
+                    <label id="formExample3" for="" class="form-label"> Password</label>
+                    <input name="password" formControlName="password" id="formExample3" type="password" class="form-control">
+                    <div *ngIf="this.registerForm.get('password')?.errors&&this.registerForm.get('password')?.touched" class="text-danger">*Invalid Password</div>
+
+               </div>
+
+               <div class="col d-flex">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked/>
+                  <label class="form-check-label" for="flexCheckChecked">Remember me</label>
+                </div>
+               </div>
+               <!-- button -->
+               <div class="text-center">
+                <h3 class="text-danger">{{RegisterError}}</h3>
+                <button class="btn btn-primary btn-block mb-2" type="submit">Register</button>
+               </div>
+               <div class="text-center">
+                <p>Already have an account? <a routerLink="/">Please Login </a></p>
+               </div>
+            
+          
+           </form> 
+                
+                    
+                    
+                
+            
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3 bg-warning" >
+      © 2020 Copyright:
+      <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>

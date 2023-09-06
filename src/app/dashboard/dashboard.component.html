@@ -1,0 +1,146 @@
+<app-delete-acno [deleteAcno]="acno" (onCancel)="cancelDeleteConfirm()" (onDelete)="deleteFromParent()"></app-delete-acno>
+
+<div *ngIf="deleteSuccessMsg">
+  <h1 class="text-center text-success m-3">{{deleteSuccessMsg}}</h1>
+</div>
+
+<div *ngIf="!deleteConfirmStatus">
+  <!-- nav -->
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+          <img src="https://genhq.com/wp-content/uploads/2018/09/GenZBanking2Final.gif" alt="" width="30" height="24" class="d-inline-block align-text-top">
+          SM Bank
+        </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto me-5">
+       
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle me-5"  id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu" >
+            <li><a (click)="getBalance()" class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample"><i class="fa-solid fa-money-check-dollar fa-fade me-2 text-info"></i> Balance Enquiry</a></li>
+            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-money-bill-trend-up fa-fade me-2 text-info"></i> Fund Transfer</a></li>
+            <li><a routerLink="/transactions" class="dropdown-item" ><i class="fa-solid fa-money-bill-1 fa-fade me-2 text-info"></i> Transaction History</a></li>
+            <li><a (click)="deleteAccount()" class="dropdown-item" ><i class="fa-solid fa-trash fa-fade me-2 text-info me-2 text-info"></i> Remove Account</a></li>
+            <li><a class="dropdown-item" (click)="logout()" ><i class="fa-solid fa-right-from-bracket fa-fade me-2 text-info"></i> logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Fund Transfer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="FundTransferForm" >
+              <div class="form-floating mb-3">
+                  <input formControlName="creditAcno" type="text" class="form-control" id="floatingInput" placeholder="Credit Account Number">
+                  <label for="floatingInput">Credit Account Number</label>
+                  <div *ngIf="this.FundTransferForm.get('creditAcno')?.errors&&this.FundTransferForm.get('creditAcno')?.touched" class="text-danger">*Invalid Data</div>
+
+                </div>
+                <div class="form-floating mb-3">
+                  <input formControlName="amount" type="text" class="form-control" id="floatingPassword" placeholder="Amount">
+                  <label for="floatingPassword">Amount</label>
+                  <div *ngIf="this.FundTransferForm.get('amount')?.errors&&this.FundTransferForm.get('amount')?.touched" class="text-danger">*Invalid Data</div>
+
+                </div>
+                <div class="form-floating mb-3">
+                  <input formControlName="password" type="password" class="form-control" id="floatingInput" placeholder="Password">
+                  <label for="floatingInput">Password</label>
+                  <div *ngIf="this.FundTransferForm.get('password')?.errors&&this.FundTransferForm.get('password')?.touched" class="text-danger">*Invalid Password</div>
+
+                </div>
+                <!-- result -->
+                <div class="text-success fw-bolder text-center  my-2">
+                  {{transferSuccess}}
+                </div>
+                <div class="text-danger fw-bolder text-center my-2">
+                  {{transferError}}
+                </div>
+                <div class="text-center my-2 d-flex justify-content-evenly">
+                  <button  type="submit" (click)="reset()" class="btn btn-danger">Reset</button>
+                  <button  type="submit" (click)="dashboardForm()" class="btn btn-primary">Transfer</button>
+                  <button  type="submit" data-bs-dismiss="modal" class="btn btn-dark">Close</button>
+
+
+                </div>
+          </form>
+            
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Balance Enquiry</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+      <!-- image -->
+      <img src="https://i.pinimg.com/originals/37/6c/d7/376cd78f534efc70562acd902db2752c.gif" alt="" width="100%" height="300px">
+    <div>
+      <h5>Hey {{user}},</h5>
+      <h6>Your current Balance is : <span class="text-success">{{balance}}</span></h6>
+  </div>
+    
+  </div>
+</div>
+
+<!-- main content -->
+<div class="container">
+  <div class="row">
+      <div class="col-6 p-5">
+          <!-- image -->
+          <img src="https://cdn.dribbble.com/users/2120125/screenshots/4863871/__-1_3.gif" width="700px" alt="">
+      </div>
+      <div class="col-6 p-5">
+          <!-- heading and texts -->
+          <h1>Welcome {{user}}</h1>
+          <p style="text-align: justify;">Online banking allows you to conduct financial transactions via the Internet. 
+              Online banking is also known as Internet banking or web banking.
+              </p>
+
+              <div class="collapse" id="collapseExample">
+                  
+                  Online banking offers customers almost every service traditionally available through a local branch including deposits, transfers, and online bill payments. 
+                  Virtually every banking institution has some form of online banking you can access through a computer or app.                   
+                </div>
+          <button (click)="collapse()" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#collapseExample">Read 
+              <span *ngIf="!isCollapse">More</span>
+              <span *ngIf="isCollapse">Less</span>  
+          </button> 
+      </div>
+  </div>
+</div>
+
+
+<!-- footer -->
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3 bg-warning" >
+    © 2023 Copyright:
+    <a class="text-dark" href="/">SMbank.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+</div>

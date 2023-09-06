@@ -1,0 +1,60 @@
+<!-- header -->
+<nav class="navbar  bg-warning">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="https://genhq.com/wp-content/uploads/2018/09/GenZBanking2Final.gif" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        SM Bank
+      </a>
+    </div>
+  </nav>
+
+  <!-- main content -->
+  <div class="container">
+    <div class="row">
+        <h2 class="text-info text-center my-4">Transaction History</h2>
+        <div class="col-6 mt-3">
+            <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Search By Type">
+        </div>
+        <div class="col-6 mt-3">
+            <button style="float: right;" (click)="generatePdf()" class="btn btn-info" >Export as Pdf</button>
+        </div>
+    </div>
+
+    <div class="row-table m-5">
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Type</th>
+                <th scope="col">From Account</th>
+                <th scope="col">To Account</th>
+                <th scope="col">Amount</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-active" *ngFor="let trans of transactions | search:searchTerm:'type' ; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{trans.type}}</td>
+                <td>{{trans.fromAcno}}</td>
+                <td>{{trans.toAcno}}</td>
+                <td>{{trans.amount}}</td>
+              </tr>
+              
+            </tbody>
+          </table>
+    </div>
+  </div>
+
+
+
+  <!-- footer -->
+<footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3 bg-warning" >
+      © 2020 Copyright:
+      <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
