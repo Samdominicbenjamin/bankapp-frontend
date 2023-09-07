@@ -29,6 +29,12 @@ export class DashboardComponent implements OnInit{
 
   }
   ngOnInit(): void {
+    
+    //alert message while going back from the home page
+    if(!localStorage.getItem("token")){
+      alert("Please login")
+      this.logoutRouter.navigateByUrl('')
+    }
     if(localStorage.getItem('currentUser')){
       this.user=localStorage.getItem('currentUser')||'';//currentuser
     }
